@@ -1,3 +1,6 @@
+import re
+
+
 def clear_names(file_name: str) -> list:
     """Функция для отчистки имен от лишних симолов"""
     new_names_list = list()
@@ -13,8 +16,22 @@ def clear_names(file_name: str) -> list:
     return new_names_list
 
 
+def is_cyrillic(name_item):
+    """Проверка на вхождение кириллицы в строку"""
+    return bool(re.search('[а-яА-Я]', name_item))
+
+
+def filter_russian_name(names_list: list) -> list:
+    """Фильтрация имен написанных на Русском"""
+    new_name_list = list()
+    for name_item in names_list:
+        if cyrillic(name_item):
+            new_name_list.append(name_item)
+    return new_names_list
+
+
 if __name__ == '__main__':
     cleared_name = clear_names('../data/names.txt')
 
-    for i in cleared_name:
-        print(i)
+
+    print(filter_russian_name(cleared_name))
