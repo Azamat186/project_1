@@ -31,7 +31,7 @@ def filter_russian_name(names_list: list) -> list:
 
 
 if __name__ == '__main__':
-    cleared_name = clear_names('../data/names.txt')
+    cleared_name = clear_names('data/names.txt')
 
 
     print(filter_russian_name(cleared_name))
