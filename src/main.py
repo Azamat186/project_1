@@ -30,6 +30,15 @@ def filter_russian_name(names_list: list) -> list:
     return new_names_list
 
 
+def filter_english_name(names_list: list) -> list:
+    """Фильтрация имен написанных на Английском"""
+    new_name_list = list()
+    for name_item in names_list:
+        if not cyrillic(name_item):
+            new_name_list.append(name_item)
+    return new_names_list
+
+
 def save_to_file(file_name: str, data: str) -> None:
     """Сохраняет данные в файл"""
     with open('data/' + file_name, 'w') as names_file:
@@ -42,4 +51,11 @@ if __name__ == '__main__':
     filtered_names = filter_russian_name(cleared_name)
     save_to_file(
         'russian_names.txt',
-        ', '.join(filtered_names))
+        '\n'.join(filtered_names)
+    )
+
+filtered_names = filter_english_name(cleared_name)
+    save_to_file(
+        'english_names.txt',
+        '\n'.join(filtered_names)
+    )
