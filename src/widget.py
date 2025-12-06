@@ -34,7 +34,7 @@ def mask_account_card(data: str) -> str:
 
 # Тестируем функции
 try:
-    print(get_mask_card_number("Visa Platinum 7000792289606361"))  # Результат: 7000 79** **** 6361
-    print(get_mask_account("Счет 73654108430135874305"))  # Результат: **4305
+    print(mask_account_card("Visa Platinum 7000792289606361"))  # Результат: 7000 79** **** 6361
+    print(mask_account_card("Счет ВТБ Банк 73654108430135874305"))  # Результат: **4305
 except Exception as ex:
     print(ex)
