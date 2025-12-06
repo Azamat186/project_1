@@ -18,9 +18,6 @@ def get_mask_card_number(card_number: int) -> str:
     return f"{card_str[:4]} {card_str[4:6]} ** {masked_part} {card_str[-4:]}"
 
 
-print(get_mask_card_number(1234_5678_9012_3456))
-
-
 def get_mask_account(account_number: Union[int, str]) -> str:
     """Формирует маску банковского счёта вида **XXXX,
     показывая только последнюю четверку символов. Args: account_number (Union[int, str]):
@@ -32,6 +29,3 @@ def get_mask_account(account_number: Union[int, str]) -> str:
         raise ValueError("Неверный формат номера счёта")
 
     return f"**{acc_str[-4:]}"
-
-
-print(get_mask_account(73654108430135874305))

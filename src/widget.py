@@ -14,7 +14,7 @@ def get_date(iso_string: str) -> str:
 
 def mask_account_card(data: str) -> str:
     """Функция принимает строку с описанием карты или счета и номером, возвращает замаскированную версию."""
-    pattern = r'^(?P<type>(карта|счет))\s+(?P<name>\S+)\s+(?P<number>\d+)$'
+    pattern = r"^(?P<type>(карта|счет))\s+(?P<name>\S+)\s+(?P<number>\d+)$"
     match = re.match(pattern, data.strip())
 
     if not match:
@@ -34,7 +34,7 @@ def mask_account_card(data: str) -> str:
 
 # Тестируем функции
 try:
-    print(mask_account_card("Visa Platinum 7000792289606361"))  # Результат: 7000 79** **** 6361
-    print(mask_account_card("Счет 73654108430135874305"))  # Результат: **4305
+    print(get_mask_card_number("Visa Platinum 7000792289606361"))  # Результат: 7000 79** **** 6361
+    print(get_mask_account("Счет 73654108430135874305"))  # Результат: **4305
 except Exception as ex:
     print(ex)
