@@ -1,4 +1,9 @@
+# Файл .flake8
 [flake8]
 max-line-length = 119
-ignore = E203, W503
-exclude = .git, __pycache__, venv, .venv
+ignore =
+    E203,  # Пробелы вокруг двоеточия в срезах и выражениях
+    W503   # Разрыв строки после оператора
+exclude =
+    __pycache__,
+    .git
