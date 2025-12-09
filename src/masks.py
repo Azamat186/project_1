@@ -1,29 +1,22 @@
-from typing import Union
-import re
-
-
 def get_mask_card_number(card_number: int) -> str:
-    """Получает число с номером кредитной карты и формирует её маску вида XXXX XX** **** XXXX.
-    Первая шестерка символов видима, последние четыре также остаются открытыми, остальное скрыто символом '*'.
-     Блокировка идет каждые четыре символа. Args: card_number (int): Номер кредитной карты длиной ровно 16 цифр.
-      Raises: ValueError: Если длина не равна 16 или карта содержит недопустимые символы. Returns: str:
-      Маскированная строка номера карты."""
-    card_str = str(card_number)
-    if len(card_str) != 16 or not card_str.isdigit():
-        raise ValueError("Неверный формат номера карты")
+    """
+    Маска банковской карты в формате XXXX XX** **** XXXX.
 
-    blocks = re.findall(r"\d{4}", card_str)
-    masked_blocks = [blocks[0], blocks[1][:2] + "**", "****", blocks[-1]]
-    return " ".join(masked_blocks)
+    :param card_number: Номер карты (целое число)
+    :return: Отформатированная строка с маской карты
+    """
+    if len(str(card_number)) != 16:
+        raise ValueError("Номер карты должен состоять ровно из 16 цифр.")
+    formatted_number = f"{card_number:016d}"
+    masked_part = formatted_number[:6] + '**' + '****' + formatted_number[-4:]
+    return ' '.join([masked_part[i:i + 4] for i in range(0, len(masked_part), 4)])
 
 
-def get_mask_account(account_number: Union[int, str]) -> str:
-    """Формирует маску банковского счёта вида **XXXX, показывая только последнюю четверку символов. Args:
-    account_number (Union[int, str]): Номер банковского счёта длиной больше или равной 4 цифрам. Raises: ValueError:
-     Если счёт короче четырёх символов или содержит нецифровые символы. Returns: str:
-     Маскированная строка номера счёта."""
-    acc_str = str(account_number)
-    if len(acc_str) < 4 or not acc_str.isdigit():
-        raise ValueError("Неверный формат номера счёта")
+def get_mask_account(account_number: int) -> str:
+    """
+    Маска банковского счёта в формате **XXXX.
 
-    return f"**{acc_str[-4:]}"
+    :param account_number: Номер счёта (целое число)
+    :return: Отформатированная строка с маской счёта
+    """
+    return f"**{account_number % 10000:04d}"
