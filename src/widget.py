@@ -11,13 +11,18 @@ def mask_account_card(info_string: str) -> str:
     :return: Замасированное представление строки с типом и номером
     """
     parts = info_string.split()
-    type_name = parts[0].strip()  # Тип (например, Visa Platinum или Счет)
-    number_str = ''.join(parts[1:])
 
-    try:
-        number = int(number_str)
-    except ValueError as e:
-        raise ValueError(f"Ошибка парсинга номера '{number_str}'") from e
+    # Ищем последний элемент, который полностью состоит из цифр
+    for i in range(len(parts) - 1, -1, -1):
+        if parts[i].isdigit():
+            number_str = parts[i]
+            type_name = " ".join(parts[:i])
+            break
+    else:
+        raise ValueError(f"Не удалось найти числовой номер в строке '{info_string}'")
+
+    # Преобразуем номер в int
+    number = int(number_str)
 
     if type_name.lower().startswith('счет'):
         masked_number = get_mask_account(number)
