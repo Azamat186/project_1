@@ -4,10 +4,11 @@ from src.masks import get_mask_card_number, get_mask_account
 
 def mask_account_card(info_string: str) -> str:
     """
-    Применяет соответствующую маску к номеру карты или счёта, указанным в строке info_string.
+    Применяет соответствующую маску к номеру карты или счёта,
+    указанным в строке info_string.
 
     :param info_string: Строка вида "<тип объекта> <номер>"
-                       Возможные значения: "Visa Platinum", "Maestro", "MasterCard", "Счёт"
+    Возможные значения: "Visa Platinum", "Maestro", "MasterCard", "Счёт"
     :return: Замасированное представление строки с типом и номером
     """
     parts = info_string.split()
