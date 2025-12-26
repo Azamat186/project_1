@@ -4,6 +4,7 @@ max-line-length = 119  # Максимальная длина строки
 select = E,F,W,C90  # Включенные типы проверок (E - синтаксис, F - ошибки, W - предупреждения, C90 - complexity)
 extend-ignore = D,E203,E501  # Игнорируемые правила (D - дублирование импорта, E203 - пробел вокруг запятой,
 E501 - превышение длины строки)
+ignore = E203,E266,E501,W503,D203
 exclude = tests/*,*.pyc,*__pycache__,migrations/,venv/,build/,dist/,node_modules/,coverage*,docs/build/*  # Папки и
 файлы, исключаемые из анализа
 show-source = True  # Показывать исходный код строк с ошибками

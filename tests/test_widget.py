@@ -9,20 +9,22 @@ from src.widget import mask_account_card, get_date
     ("Visa Gold 5999414228426353", "Visa Gold 5999 41** **** 6353"),
 ])
 def test_mask_account_card(input_data, expected):
-    """Тестирует корректную работу функции mask_account_card с разными входными данными."""
+    """Тестирует корректную работу функции mask_account_card
+    с разными входными данными."""
     assert mask_account_card(input_data) == expected
 
 
 @pytest.mark.parametrize("input_data", [
-    "Visa Platinum 7000792289606361123123",  # Слишком длинный (проверка логики не сломается, но тест на формат)
-    "CrazyCard 123",  # Некорректный ввод
+    "Visa Platinum 7000792289606361123123",
+    "CrazyCard 123",
 ])
 def test_mask_account_card_negative(input_data):
-    """
-    Этот тест опционален, зависит от того, как жестко мы хотим проверять валидность.
+    """Этот тест опционален, зависит от того,
+    как жестко мы хотим проверять валидность.
     В текущей реализации widget.py проверяется только .isdigit().
     Ниже тесты на реальные ошибки.
     """
+
 
 def test_mask_account_card_errors():
     """Тестирует выброс ошибок при некорректных данных."""
