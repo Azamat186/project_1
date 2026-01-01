@@ -2,21 +2,24 @@ import pytest
 from src.masks import get_mask_card_number, get_mask_account
 
 
-@pytest.mark.parametrize("card_number, expected", [
-    (7000792289606361, "7000 79** **** 6361"),  # Стандартная карта
-    (1234567812345678, "1234 56** **** 5678"),  # Другой номер
-    (1111222233334444, "1111 22** **** 4444"),  # Простой номер
-])
-def test_get_mask_card_number(card_number, expected):
-    """Тестирует маскировку номера карты (параметризованный)."""
-    assert get_mask_card_number(card_number) == expected
+def test_get_mask_card_number(valid_cards, invalid_cards):
+    for card_num in valid_cards:
+        masked = get_mask_card_number(card_num)
+        assert masked.startswith(card_num[:4])
+        assert masked.endswith(card_num[-4:])
+        assert "" in masked
+
+    for bad_card in invalid_cards:
+        with pytest.raises(ValueError):
+            get_mask_card_number(bad_card)
 
 
-@pytest.mark.parametrize("account_number, expected", [
-    (73654108430135874305, "**4305"),  # Стандартный счет
-    (12345, "**2345"),                 # Короткий счет
-    (99999999999999999999, "**9999")   # Длинный счет из 9
-])
-def test_get_mask_account(account_number, expected):
-    """Тестирует маскировку номера счета (параметризованный)."""
-    assert get_mask_account(account_number) == expected
+def test_get_mask_account(valid_accounts, invalid_accounts):
+    for acc_num in valid_accounts:
+        masked = get_mask_account(acc_num)
+        assert masked.startswith("")
+        assert masked.endswith(acc_num[-4:])
+
+    for bad_acc in invalid_accounts:
+        with pytest.raises(ValueError):
+            get_mask_account(bad_acc)

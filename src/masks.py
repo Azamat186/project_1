@@ -1,22 +1,14 @@
-def get_mask_card_number(card_number: int) -> str:
-    """
-    Маска банковской карты в формате XXXX XX** **** XXXX.
+def get_mask_card_number(card_number: str) -> str:
+    """Возвращает маску банковской карты вида XXXX XX** **** XXXX"""
+    if len(card_number) != 16 or not card_number.isdigit():
+        raise ValueError("Неверный формат номера карты")
 
-    :param card_number: Номер карты (целое число)
-    :return: Отформатированная строка с маской карты
-    """
-    if len(str(card_number)) != 16:
-        raise ValueError("Номер карты должен состоять ровно из 16 цифр.")
-    formatted_number = f"{card_number:016d}"
-    masked_part = formatted_number[:6] + '**' + '****' + formatted_number[-4:]
-    return ' '.join([masked_part[i:i + 4] for i in range(0, len(masked_part), 4)])
+    return f"{card_number[:4]} {card_number[4:6]} **** {card_number[-4:]}"
 
 
-def get_mask_account(account_number: int) -> str:
-    """
-    Маска банковского счёта в формате **XXXX.
+def get_mask_account(account_number: str) -> str:
+    """Возвращает маску аккаунта вида **XXXX"""
+    if len(account_number) < 4 or not account_number.isdigit():
+        raise ValueError("Неверный формат номера счета")
 
-    :param account_number: Номер счёта (целое число)
-    :return: Отформатированная строка с маской счёта
-    """
-    return f"**{account_number % 10000:04d}"
+    return f"{account_number[-4:]}"
