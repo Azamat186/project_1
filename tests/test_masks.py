@@ -1,25 +1,36 @@
 import pytest
 from src.masks import get_mask_card_number, get_mask_account
 
+@pytest.mark.parametrize(
+    "card_number, expected",
+    [
+        ("1234567890123456", "1234****3456"),
+        ("123456789012345", ValueError("Неверный формат номера карты")),
+        ("abc123", ValueError("Неверный формат номера карты")),
+    ],
+)
+def test_get_mask_card_number(card_number, expected):
+    if isinstance(expected, Exception):
+        with pytest.raises(type(expected)) as excinfo:
+            get_mask_card_number(card_number)
+        assert str(excinfo.value) == str(expected)
+    else:
+        result = get_mask_card_number(card_number)
+        assert result == expected
 
-def test_get_mask_card_number(valid_cards, invalid_cards):
-    for card_num in valid_cards:
-        masked = get_mask_card_number(card_num)
-        assert masked.startswith(card_num[:4])
-        assert masked.endswith(card_num[-4:])
-        assert "" in masked
-
-    for bad_card in invalid_cards:
-        with pytest.raises(ValueError):
-            get_mask_card_number(bad_card)
-
-
-def test_get_mask_account(valid_accounts, invalid_accounts):
-    for acc_num in valid_accounts:
-        masked = get_mask_account(acc_num)
-        assert masked.startswith("")
-        assert masked.endswith(acc_num[-4:])
-
-    for bad_acc in invalid_accounts:
-        with pytest.raises(ValueError):
-            get_mask_account(bad_acc)
+@pytest.mark.parametrize(
+    "account_number, expected",
+    [
+        ("123456789012", "****12"),
+        ("12345678901", ValueError("Неверный формат номера счета")),
+        ("abc123", ValueError("Неверный формат номера счета")),
+    ],
+)
+def test_get_mask_account(account_number, expected):
+    if isinstance(expected, Exception):
+        with pytest.raises(type(expected)) as excinfo:
+            get_mask_account(account_number)
+        assert str(excinfo.value) == str(expected)
+    else:
+        result = get_mask_account(account_number)
+        assert result == expected
