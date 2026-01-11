@@ -33,10 +33,11 @@ def card_number_generator(start=1, end=9999999999999999):
     :param end: Конечная карта.
     :return: Итератор с номерами карт.
     """
-    format_str = "{:016d}"  # Формат строки с шестнадцатью цифрами
-    for i in range(start, end+1):  # Включаем последнюю карту в генерацию
+    if start < 1 or len(str(start)) > 16 or len(str(end)) > 16 or end > 9999999999999999 or start > end:
+        raise ValueError(f"Некорректный диапазон карт: ({start}, {end})")
+
+    format_str = "{:016d}"
+    for i in range(start, end + 1):
         formatted_number = format_str.format(i)
-        # Разбиваем строку на блоки по 4 символа
-        blocks = ([formatted_number[i:i+4]
-                   for i in range(0, len(formatted_number), 4)])
+        blocks = [formatted_number[j:j+4] for j in range(0, len(formatted_number), 4)]
         yield " ".join(blocks)
