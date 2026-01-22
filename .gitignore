@@ -3,6 +3,3 @@ __pycache__/
 
 # Исключить IDEA-файлы PyCharm
 .idea/
-
-# Исключение виртуальных сред Python
-test/
