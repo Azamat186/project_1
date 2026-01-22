@@ -1,43 +1,45 @@
 import os
 import requests
 from typing import Dict, Optional
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def convert_to_rubles(transaction: Dict[str, any]) -> Optional[float]:
     """
-    Конвертирует сумму транзакции в рубли, используя внешний API.
-    Для валют USD и EUR обращается к стороннему API для конвертации.
-    :param transaction: словарь с информацией о транзакции
+ Возвращает сумму транзакции в рублях. Если валюта USD/EUR, отправляет запрос к API
+ для конвертации валюты.
+ :param transaction: Словарь с данными о транзакции
     :type transaction: dict
-    :returns: сумма в рублях или None в случае ошибки
     :rtype: float | None
     """
     amount = transaction.get('amount')
-	@@ -20,27 +19,27 @@ def convert_to_rubles(transaction: Dict[str, any]) -> Optional[float]:
+    currency = transaction.get('currency')
+
     if not amount or not currency:
         return None
 
-    # Непосредственно конвертируем, если валюта уже рубли
     if currency == 'RUB':
         return float(amount)
 
-    # Только USD и EUR требуют конвертацию
-    elif currency in ['USD', 'EUR']:
-        # Получаем ключ API из окружения
-        api_key = os.getenv('EXCHANGE_RATES_DATA_API_KEY')
+    # Получаем токен из переменных окружения
+    api_key = os.getenv('EXCHANGE_RATES_DATA_API_KEY')
 
-        # Отправляем запрос к API для конвертации указанной суммы в рубли
-        response = requests.get(
-            f"https://api.apilayer.com/currency_data/convert?to=RUB&from={currency}&amount={amount}",
-            headers={"apikey": api_key}
-        )
+    # Определяем базовую валюту и целевую (рубль)
+    base_currency = currency
+    target_currency = 'RUB'
 
-        if response.status_code == 200:
-            data = response.json()
-            converted_amount = data.get('result')
+    # Отправляем запрос к API
+    response = requests.get(
+        f"https://api.apilayer.com/exchangerates_data/latest?base={base_currency}&symbols=RUB",
+        headers={"apikey": api_key}
+    )
 
-            # Проверяем наличие значения перед преобразованием
-            if converted_amount is not None:
-                return round(float(converted_amount), 2)
-
-    return None
+    if response.status_code == 200:
+        data = response.json()
+        ruble_rate = data['rates']['RUB']
+        converted_amount = float(amount) * ruble_rate
+        return round(converted_amount, 2)
+    else:
+        print(f"Ошибка при обращении к API: {response.text}")
+        return None
