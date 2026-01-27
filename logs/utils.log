@@ -1,0 +1,6 @@
+2025-09-21 13:20:53,021 - utils - DEBUG - ������ ����� some/path/to/file.json
+2025-09-21 13:20:53,021 - utils - INFO - ���� ������� ��������, ���������� ����������: 2
+2025-09-21 13:20:53,022 - utils - DEBUG - ������ ����� nonexistent_file.json
+2025-09-21 13:20:53,023 - utils - ERROR - ������: ���� "nonexistent_file.json" �� ������.
+2025-09-21 13:20:53,024 - utils - DEBUG - ������ ����� invalid.json
+2025-09-21 13:20:53,024 - utils - ERROR - ������: ���� "invalid.json" �� ������.
